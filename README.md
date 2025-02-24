@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Resume Builder
 
-## Getting Started
+This is a simple resume builder built with Next.js and Tailwind CSS.
+The goal of this is to create a simple and easy to use resume that will allow you to create a resume that is simple yet beautiful.
 
-First, run the development server:
-
+## To Run Locally
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+## Screenshots
+![Screenshot 1](https://i.imgur.com/WrQX13q.png)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
+- Simple and easy to use
+- Focus on ATS (Applicant Tracking Systems)
+- Data Stored in Local Storage so you can save your progress and continue later
+- Multiple templates to choose from (Minimal, Classic, Modern)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Sections
+- Personal information section
+- Work Experience section
+- Education section
+- Skills section
+- Licenses & Certifications section
+- Skills Section
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Note
+- You must manually scale the page when downloading the PDF so it is able to fit the page. (Data will be truncated to fit the page)
+- This is a work in progress and the UI is not final.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## In-Progress
+- [] Import data such as from LinkedIn Profile (Might be hard as LinkedIn blocks scraping)
+- [] Responsive Design
+- [] Prevent the need for manual scaling of the page when downloading PDF
+- [] Chatbot that will help you tailor your resume OR/AND cover letterto the job you are applying to
