@@ -26,7 +26,7 @@ export function MinimalTemplate({
   };
 
   return (
-    <div className="bg-white w-full h-full p-12">
+    <div className="bg-white w-full h-full p-12 print:m-0 print:p-[12mm]">
       {/* Header Section */}
       <div className="space-y-1 mb-6">
         <h1 className="text-4xl font-serif tracking-wide">

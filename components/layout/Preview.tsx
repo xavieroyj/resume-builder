@@ -61,7 +61,7 @@ export function Preview({ className }: PreviewProps) {
     <div 
       ref={containerRef}
       className={cn(
-        "flex-1 h-full bg-gray-50",
+        "flex-1 h-full bg-gray-50 print:bg-white",
         className
       )}
     >
@@ -74,7 +74,8 @@ export function Preview({ className }: PreviewProps) {
           ref={contentRef}
           className={cn(
             "w-full max-w-[850px] bg-white shadow-lg origin-center",
-            "transition-transform duration-200 ease-in-out"
+            "transition-transform duration-200 ease-in-out",
+            "print:shadow-none print:max-w-none print:w-[210mm] print:transform-none"
           )}
           style={{ transform: `scale(${scale})` }}
         >
