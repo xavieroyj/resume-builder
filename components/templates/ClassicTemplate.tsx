@@ -26,7 +26,7 @@ export function ClassicTemplate({
   };
 
   return (
-    <div className="bg-white w-full h-full p-12">
+    <div className="bg-white w-full h-full p-12 print:m-0 print:p-[12mm]">
       {/* Header Section */}
       <div className="text-center border-b-2 pb-4 mb-6">
         <h1 className="text-3xl font-serif mb-2">

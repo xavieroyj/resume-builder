@@ -37,10 +37,10 @@ export function ModernTemplate({
   };
 
   return (
-    <div className="bg-white w-full">
-      <div className="grid grid-cols-[300px_1fr]">
+    <div className="bg-white w-full print:m-0 print:p-[12mm]">
+      <div className="grid grid-cols-[300px_1fr] print:grid-cols-[220px_1fr] print:gap-8">
         {/* Sidebar */}
-        <div className="bg-gray-50 p-8">
+        <div className="bg-gray-50 p-8 print:bg-white print:p-0">
           {/* Profile Section */}
           <div className="mb-8">
             <h1 className="text-2xl font-bold tracking-tight mb-1">
@@ -97,7 +97,7 @@ export function ModernTemplate({
         </div>
 
         {/* Main Content */}
-        <div className="p-8">
+        <div className="p-8 print:p-0">
           {/* Summary Section */}
           {personalInfo.summary && (
             <div className="mb-8">
@@ -130,13 +130,13 @@ export function ModernTemplate({
                     <div className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-blue-600" />
                     <div className="absolute left-[2.5px] top-3 bottom-0 w-0.5 bg-gray-200 last:hidden" />
                     <div>
-                      <div className="flex justify-between items-baseline mb-1">
+                      <div className="flex justify-between items-baseline mb-1 flex-wrap gap-2">
                         <h3 className="font-semibold text-gray-900">{experience.position}</h3>
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-gray-500 shrink-0">
                           {formatDate(experience.startDate)} – {experience.current ? 'Present' : formatDate(experience.endDate || '')}
                         </span>
                       </div>
-                      <p className="text-blue-600 text-sm mb-2">{experience.company} • {experience.location}</p>
+                      <p className="text-blue-600 text-sm mb-2 break-words">{experience.company} • {experience.location}</p>
                       <div className="text-sm text-gray-600">
                         {experience.description.split('\n').map((paragraph, index) => (
                           <p key={index} className="mb-1">{paragraph}</p>
@@ -163,9 +163,9 @@ export function ModernTemplate({
                   <li key={cert.id} className="mb-6 ms-6 last:mb-0">
                     <div className="absolute w-3 h-3 bg-blue-600 rounded-full -start-[6.5px] mt-2 border-2 border-white"></div>
                     <div>
-                      <div className="grid grid-cols-[1fr_auto] gap-x-4 items-baseline">
-                        <h3 className="font-semibold text-gray-900 break-words pr-4">{cert.name}</h3>
-                        <time className="text-sm text-gray-500 whitespace-nowrap">
+                      <div className="grid grid-cols-[1fr_auto] gap-x-4 items-baseline print:gap-x-2">
+                        <h3 className="font-semibold text-gray-900 break-words">{cert.name}</h3>
+                        <time className="text-sm text-gray-500 whitespace-nowrap shrink-0">
                           {cert.current ? formatDate(cert.issueDate) : 
                            cert.expirationDate ? `${formatDate(cert.issueDate)} - ${formatDate(cert.expirationDate)}` : 
                            formatDate(cert.issueDate)}
@@ -218,7 +218,7 @@ export function ModernTemplate({
                     <div className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-blue-600 z-10" />
                     
                     <div>
-                      <div className="flex justify-between items-baseline mb-1">
+                      <div className="flex justify-between items-baseline mb-1 flex-wrap gap-2">
                         <h3 className="font-semibold text-gray-900">
                           {edu.degree}{edu.field && `, ${edu.field}`}
                         </h3>
@@ -226,7 +226,7 @@ export function ModernTemplate({
                           {formatDate(edu.startDate)} – {edu.current ? 'Present' : formatDate(edu.endDate || '')}
                         </span>
                       </div>
-                      <p className="text-blue-600 text-sm mb-2">{edu.school} • {edu.location}</p>
+                      <p className="text-blue-600 text-sm mb-2 break-words">{edu.school} • {edu.location}</p>
                       {edu.description && (
                         <p className="text-sm text-gray-600">{edu.description}</p>
                       )}
