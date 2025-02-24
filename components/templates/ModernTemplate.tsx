@@ -37,10 +37,10 @@ export function ModernTemplate({
   };
 
   return (
-    <div className="bg-white w-full print:p-0">
+    <div className="bg-white w-full">
       <div className="grid grid-cols-[300px_1fr]">
         {/* Sidebar */}
-        <div className="bg-gray-50 p-8 print:bg-gray-50">
+        <div className="bg-gray-50 p-8">
           {/* Profile Section */}
           <div className="mb-8">
             <h1 className="text-2xl font-bold tracking-tight mb-1">
@@ -182,7 +182,7 @@ export function ModernTemplate({
                               href={cert.credentialUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-blue-600 hover:text-blue-800 print:text-gray-600 inline-flex items-center gap-1"
+                              className="text-blue-600 hover:text-blue-800 inline-flex items-center gap-1"
                             >
                               View Credential
                               <Link className="h-3 w-3" />
@@ -240,4 +240,4 @@ export function ModernTemplate({
       </div>
     </div>
   );
-} 
+}
