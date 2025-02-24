@@ -53,17 +53,17 @@ export function EducationForm() {
   }, [addEducation, form]);
 
   return (
-    <div className="space-y-6 w-full max-w-full overflow-hidden">
+    <div className="space-y-6 w-full">
       {/* Existing Education Entries */}
       {education.map((edu) => (
         <Card key={edu.id}>
-          <CardContent className="pt-6 max-w-full overflow-hidden">
-            <div className="flex items-start justify-between gap-4 w-full">
-              <div className="min-w-0 flex-1 overflow-hidden">
-                <h3 className="font-semibold text-gray-900 break-words truncate">{edu.degree}</h3>
-                <p className="text-sm text-gray-500 break-words truncate">{edu.school}</p>
-                <p className="text-sm text-gray-500 break-words truncate">{edu.field}</p>
-                <p className="text-sm text-gray-500 break-words truncate">{edu.location}</p>
+          <CardContent className="pt-6">
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0 flex-1">
+                <h3 className="font-semibold text-gray-900 truncate">{edu.degree}</h3>
+                <p className="text-sm text-gray-500 truncate">{edu.school}</p>
+                <p className="text-sm text-gray-500 truncate">{edu.field}</p>
+                <p className="text-sm text-gray-500 truncate">{edu.location}</p>
                 <p className="text-sm text-gray-500">
                   {edu.startDate} - {edu.current ? 'Present' : edu.endDate}
                 </p>
@@ -82,7 +82,7 @@ export function EducationForm() {
                 <Separator className="my-4" />
                 <div className="text-sm text-gray-600 break-words overflow-hidden">
                   {edu.description.split('\n').map((paragraph, index) => (
-                    <p key={index} className="mb-2 last:mb-0 leading-relaxed break-all">
+                    <p key={index} className="mb-2 last:mb-0 leading-relaxed break-words">
                       {paragraph}
                     </p>
                   ))}
@@ -247,4 +247,4 @@ export function EducationForm() {
       </Card>
     </div>
   );
-} 
+}

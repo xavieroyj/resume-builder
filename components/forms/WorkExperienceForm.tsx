@@ -55,16 +55,16 @@ export function WorkExperienceForm() {
   }, [updateWorkExperience]);
 
   return (
-    <div className="space-y-6 w-full max-w-full overflow-hidden">
+    <div className="space-y-6 w-full">
       {/* Existing Work Experience Entries */}
       {workExperience.map((experience) => (
         <Card key={experience.id}>
-          <CardContent className="pt-6 max-w-full overflow-hidden">
-            <div className="flex items-start justify-between gap-4 w-full">
-              <div className="min-w-0 flex-1 overflow-hidden">
-                <h3 className="font-semibold text-gray-900 break-words truncate">{experience.position}</h3>
-                <p className="text-sm text-gray-500 break-words truncate">{experience.company}</p>
-                <p className="text-sm text-gray-500 break-words truncate">{experience.location}</p>
+          <CardContent className="pt-6">
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0 flex-1">
+                <h3 className="font-semibold text-gray-900 truncate">{experience.position}</h3>
+                <p className="text-sm text-gray-500 truncate">{experience.company}</p>
+                <p className="text-sm text-gray-500 truncate">{experience.location}</p>
                 <p className="text-sm text-gray-500">
                   {experience.startDate} - {experience.current ? 'Present' : experience.endDate}
                 </p>
@@ -79,9 +79,9 @@ export function WorkExperienceForm() {
               </Button>
             </div>
             <Separator className="my-4" />
-            <div className="text-sm text-gray-600 break-words overflow-hidden">
+            <div className="text-sm text-gray-600">
               {experience.description.split('\n').map((paragraph, index) => (
-                <p key={index} className="mb-2 last:mb-0 leading-relaxed break-all">
+                <p key={index} className="mb-2 last:mb-0 leading-relaxed break-words">
                   {paragraph}
                 </p>
               ))}
@@ -228,4 +228,4 @@ export function WorkExperienceForm() {
       </Card>
     </div>
   );
-} 
+}
