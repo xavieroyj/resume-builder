@@ -62,22 +62,19 @@ export function Preview({ className }: PreviewProps) {
       ref={containerRef}
       className={cn(
         "flex-1 h-full bg-gray-50",
-        "print:bg-white print:h-auto print:overflow-visible",
         className
       )}
     >
       {/* Container for centering */}
       <div className={cn(
-        "h-full flex items-center justify-center p-8",
-        "print:block print:p-0"
+        "h-full flex items-center justify-center p-8"
       )}>
         {/* Content wrapper with scaling */}
         <div 
           ref={contentRef}
           className={cn(
             "w-full max-w-[850px] bg-white shadow-lg origin-center",
-            "transition-transform duration-200 ease-in-out",
-            "print:shadow-none print:max-w-none print:[transform:none!important]"
+            "transition-transform duration-200 ease-in-out"
           )}
           style={{ transform: `scale(${scale})` }}
         >
@@ -86,4 +83,4 @@ export function Preview({ className }: PreviewProps) {
       </div>
     </div>
   );
-} 
+}
