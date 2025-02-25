@@ -11,7 +11,6 @@ import { TemplateType, useResumeStore } from "@/lib/store/resume";
 const templates: { value: TemplateType; label: string }[] = [
   { value: "minimal", label: "Minimal" },
   { value: "classic", label: "Classic" },
-  { value: "modern", label: "Modern" },
 ];
 
 export function TemplateSelector() {
