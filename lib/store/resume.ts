@@ -50,7 +50,7 @@ export interface Certification {
   current: boolean;
 }
 
-export type TemplateType = 'minimal' | 'classic' | 'modern';
+export type TemplateType = 'minimal' | 'classic';
 
 interface ResumeState {
   selectedTemplate: TemplateType;

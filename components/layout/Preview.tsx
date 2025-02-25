@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { useResumeStore } from "@/lib/store/resume";
 import { MinimalTemplate } from "@/components/templates/MinimalTemplate";
 import { ClassicTemplate } from "@/components/templates/ClassicTemplate";
-import { ModernTemplate } from "@/components/templates/ModernTemplate";
 
 interface PreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
@@ -50,8 +49,6 @@ export function Preview({ className }: PreviewProps) {
         return <MinimalTemplate {...props} />;
       case 'classic':
         return <ClassicTemplate {...props} />;
-      case 'modern':
-        return <ModernTemplate {...props} />;
       default:
         return <MinimalTemplate {...props} />;
     }
