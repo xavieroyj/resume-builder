@@ -6,27 +6,44 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send } from "lucide-react";
 import { useResumeStore } from "@/lib/store/resume";
-
-interface Message {
-  id: string;
-  content: string;
-  sender: "user" | "assistant";
-  timestamp: Date;
-}
+import { useChat } from '@ai-sdk/react';
 
 export function ChatInterface() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      content: "Hello! I'm your resume assistant. How can I help you with your resume today?",
-      sender: "assistant",
-      timestamp: new Date(),
-    },
-  ]);
-  const [inputValue, setInputValue] = useState("");
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { personalInfo, workExperience, education, skills, certifications } = useResumeStore();
+  const resumeStore = useResumeStore();
+
+  // Extract only the data properties from the resumeStore
+  const resumeData = {
+    personalInfo: resumeStore.personalInfo,
+    workExperience: resumeStore.workExperience,
+    education: resumeStore.education,
+    skills: resumeStore.skills,
+    certifications: resumeStore.certifications,
+    selectedTemplate: resumeStore.selectedTemplate
+  };
+
+  // Use the useChat hook from the Vercel AI SDK
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    status,
+    error
+  } = useChat({
+    api: "/api/chat",
+    body: {
+      resumeData
+    },
+    initialMessages: [
+      {
+        id: "1",
+        content: "Hello! I'm your resume assistant. How can I help you with your resume today?",
+        role: "assistant",
+      },
+    ],
+  });
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
@@ -45,62 +62,8 @@ export function ChatInterface() {
     }
   }, []);
 
-  const handleSendMessage = () => {
-    if (!inputValue.trim()) return;
-
-    // Add user message
-    const userMessage: Message = {
-      id: crypto.randomUUID(),
-      content: inputValue,
-      sender: "user",
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    setInputValue("");
-
-    // Simulate assistant response (in a real app, this would call an API)
-    setTimeout(() => {
-      const assistantMessage: Message = {
-        id: crypto.randomUUID(),
-        content: generateResponse(inputValue),
-        sender: "assistant",
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
-    }, 1000);
-  };
-
-  const generateResponse = (userMessage: string): string => {
-    // This is a simple placeholder. In a real app, you would call an AI API
-    const lowerCaseMessage = userMessage.toLowerCase();
-    
-    if (lowerCaseMessage.includes("help") || lowerCaseMessage.includes("how")) {
-      return "I can help you improve your resume by providing suggestions for your personal information, work experience, education, skills, and certifications. What specific part would you like help with?";
-    }
-    
-    if (lowerCaseMessage.includes("personal") || lowerCaseMessage.includes("name") || lowerCaseMessage.includes("contact")) {
-      return `I see your name is ${personalInfo.fullName || "[Not provided]"}. Make sure your contact information is professional and up-to-date. A clear, concise summary helps recruiters understand your value proposition quickly.`;
-    }
-    
-    if (lowerCaseMessage.includes("work") || lowerCaseMessage.includes("experience") || lowerCaseMessage.includes("job")) {
-      return `You have ${workExperience.length} work experiences listed. For each position, use strong action verbs and quantify your achievements when possible. Focus on results and impact rather than just listing responsibilities.`;
-    }
-    
-    if (lowerCaseMessage.includes("education") || lowerCaseMessage.includes("school") || lowerCaseMessage.includes("degree")) {
-      return `You have ${education.length} education entries. For recent graduates, education should be prominent. For experienced professionals, focus more on your work experience and place education lower in your resume.`;
-    }
-    
-    if (lowerCaseMessage.includes("skill")) {
-      return `You've listed ${skills.length} skills. Make sure to include both technical and soft skills relevant to your target position. Review job descriptions to identify key skills employers are looking for.`;
-    }
-    
-    if (lowerCaseMessage.includes("certification") || lowerCaseMessage.includes("license")) {
-      return `You have ${certifications.length} certifications. Industry certifications can significantly boost your resume, especially in technical fields. Make sure they're current and relevant to your target role.`;
-    }
-    
-    return "I'm here to help with your resume. You can ask me about improving your personal information, work experience, education, skills, or certifications.";
-  };
+  // Check if the AI is currently generating a response
+  const isGenerating = status === 'streaming' || status === 'submitted';
 
   return (
     <div className="flex flex-col h-full">
@@ -111,19 +74,19 @@ export function ChatInterface() {
               <div
                 key={message.id}
                 className={`flex ${
-                  message.sender === "user" ? "justify-end" : "justify-start"
+                  message.role === "user" ? "justify-end" : "justify-start"
                 }`}
               >
                 <div
                   className={`max-w-[80%] rounded-lg px-4 py-2 ${
-                    message.sender === "user"
+                    message.role === "user"
                       ? "bg-primary text-primary-foreground"
                       : "bg-muted"
                   }`}
                 >
-                  <p className="text-sm">{message.content}</p>
+                  {message.content}
                   <p className="text-xs opacity-70 mt-1">
-                    {message.timestamp.toLocaleTimeString([], {
+                    {new Date().toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
@@ -131,26 +94,42 @@ export function ChatInterface() {
                 </div>
               </div>
             ))}
+            {isGenerating && (
+              <div className="flex justify-start">
+                <div className="max-w-[80%] rounded-lg px-4 py-2 bg-muted">
+                  <div className="flex items-center space-x-2">
+                    <div className="h-2 w-2 rounded-full bg-current animate-bounce" style={{ animationDelay: "0ms" }}></div>
+                    <div className="h-2 w-2 rounded-full bg-current animate-bounce" style={{ animationDelay: "150ms" }}></div>
+                    <div className="h-2 w-2 rounded-full bg-current animate-bounce" style={{ animationDelay: "300ms" }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {status === 'error' && error && (
+              <div className="flex justify-center">
+                <div className="max-w-[80%] rounded-lg px-4 py-2 bg-destructive text-destructive-foreground">
+                  <p>Error: {error.message}</p>
+                </div>
+              </div>
+            )}
           </div>
         </ScrollArea>
       </div>
 
       <div className="border-t p-4">
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSendMessage();
-          }}
+          onSubmit={handleSubmit}
           className="flex items-center gap-2"
         >
           <Input
             ref={inputRef}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            value={input}
+            onChange={handleInputChange}
             placeholder="Type your message..."
             className="flex-1"
+            disabled={isGenerating}
           />
-          <Button type="submit" size="icon" disabled={!inputValue.trim()}>
+          <Button type="submit" size="icon" disabled={!input.trim() || isGenerating}>
             <Send className="h-4 w-4" />
           </Button>
         </form>
