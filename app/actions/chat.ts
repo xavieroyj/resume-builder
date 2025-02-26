@@ -25,10 +25,7 @@ export async function generateChatResponse(
   messages: { role: 'user' | 'assistant'; content: string }[],
   resumeData?: ResumeData
 ) {
-  try {
-    // Log to verify API key is available (don't log the full key in production)
-    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-    
+  try {    
     // Log resume data structure (without sensitive content)
     console.log('Resume data structure:', {
       hasPersonalInfo: !!resumeData?.personalInfo,
@@ -46,12 +43,7 @@ export async function generateChatResponse(
     const messagesWithContext = systemMessage 
       ? [{ role: 'system' as const, content: systemMessage }, ...messages]
       : messages;
-
-    console.log('Sending messages to AI:', JSON.stringify(messagesWithContext.map(m => ({ 
-      role: m.role, 
-      contentLength: m.content.length 
-    })), null, 2));
-
+      
     // Use streamText with the Google Gemini model
     const result = await streamText({
       model: google('gemini-1.5-flash'),
