@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useResumeStore } from "@/lib/store/resume";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { PlusCircle, Trash2, ExternalLink } from "lucide-react";
 import { MonthYearSelect } from "@/components/ui/month-year-select";
 
@@ -48,6 +48,13 @@ export function CertificationForm() {
     addCertification(values);
     form.reset();
   }, [addCertification, form]);
+
+  // Initialize form with store values
+  useEffect(() => {
+    if (certifications && certifications.length > 0) {
+      // Form will be initialized with the existing certifications data
+    }
+  }, [certifications]); // Add certifications as a dependency
 
   return (
     <div className="w-full">

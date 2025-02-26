@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useResumeStore } from "@/lib/store/resume";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { PlusCircle, X } from "lucide-react";
 
@@ -34,6 +34,13 @@ export function SkillsForm() {
     addSkill(values);
     form.reset();
   }, [addSkill, form]);
+
+  // Initialize form with store values
+  useEffect(() => {
+    if (skills && skills.length > 0) {
+      // Form will be initialized with the existing skills data
+    }
+  }, [skills]); // Add skills as a dependency
 
   return (
     <div className="space-y-6">

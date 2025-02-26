@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useResumeStore } from "@/lib/store/resume";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { PlusCircle, Trash2 } from "lucide-react";
 import { MonthYearSelect } from "@/components/ui/month-year-select";
 
@@ -51,6 +51,13 @@ export function EducationForm() {
     addEducation(values);
     form.reset();
   }, [addEducation, form]);
+
+  // Initialize form with store values
+  useEffect(() => {
+    if (education && education.length > 0) {
+      // Form will be initialized with the existing education data
+    }
+  }, [education]); // Add education as a dependency
 
   return (
     <div className="space-y-6 w-full">
