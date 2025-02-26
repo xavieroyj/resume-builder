@@ -50,7 +50,7 @@ export function PersonalInfoForm() {
     if (personalInfo && Object.keys(personalInfo).length > 0) {
       form.reset(personalInfo);
     }
-  }, []); // Only run once on mount
+  }, [personalInfo, form]); // Add personalInfo and form as dependencies
 
   return (
     <Card>

@@ -10,8 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import { useResumeStore } from "@/lib/store/resume";
-import { useCallback } from "react";
+import { useResumeStore, WorkExperience } from "@/lib/store/resume";
+import { useCallback, useEffect } from "react";
 import { PlusCircle, Trash2 } from "lucide-react";
 import { MonthYearSelect } from "@/components/ui/month-year-select";
 
@@ -57,7 +57,7 @@ export function WorkExperienceForm() {
   return (
     <div className="space-y-6 w-full">
       {/* Existing Work Experience Entries */}
-      {workExperience.map((experience) => (
+      {workExperience.map((experience: WorkExperience) => (
         <Card key={experience.id}>
           <CardContent className="pt-6">
             <div className="flex items-start justify-between gap-4">
@@ -80,7 +80,7 @@ export function WorkExperienceForm() {
             </div>
             <Separator className="my-4" />
             <div className="text-sm text-gray-600">
-              {experience.description.split('\n').map((paragraph, index) => (
+              {experience.description.split('\n').map((paragraph: string, index: number) => (
                 <p key={index} className="mb-2 last:mb-0 leading-relaxed break-words">
                   {paragraph}
                 </p>

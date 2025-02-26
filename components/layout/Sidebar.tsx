@@ -11,7 +11,8 @@ import {
   GraduationCap, 
   Award, 
   Wrench,
-  FileText
+  FileText,
+  MessageSquare
 } from "lucide-react";
 import { TemplateSelector } from "../templates/TemplateSelector";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -21,6 +22,13 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@/components/ui/accordion";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { ChatInterface } from "@/components/chat/ChatInterface";
 
 // Import all form components
 import { PersonalInfoForm } from "@/components/forms/PersonalInfoForm";
@@ -36,6 +44,7 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 export function Sidebar({ className }: SidebarProps) {
   const [activeSection, setActiveSection] = useState("personal");
   const [isPrinting, setIsPrinting] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const handleDownload = async () => {
     setIsPrinting(true);
@@ -235,16 +244,42 @@ export function Sidebar({ className }: SidebarProps) {
           <TemplateSelector />
         </div>
         
-        <Button 
-          variant="default" 
-          className="w-full justify-center bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 shadow-md hover:shadow-lg"
-          onClick={handleDownload}
-          disabled={isPrinting}
-        >
-          <Download className="w-4 h-4 mr-2" />
-          <span>{isPrinting ? 'Preparing PDF...' : 'Download PDF'}</span>
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            variant="default" 
+            className="flex-1 justify-center bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 shadow-md hover:shadow-lg"
+            onClick={handleDownload}
+            disabled={isPrinting}
+          >
+            <Download className="w-4 h-4 mr-2" />
+            <span>{isPrinting ? 'Preparing PDF...' : 'Download PDF'}</span>
+          </Button>
+          
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-10 w-10 rounded-full border-primary/20 hover:bg-primary/10 hover:text-primary transition-all duration-200"
+            onClick={() => setIsChatOpen(true)}
+          >
+            <MessageSquare className="h-5 w-5" />
+          </Button>
+        </div>
       </div>
+      
+      {/* Chat Sheet will be added here */}
+      <Sheet open={isChatOpen} onOpenChange={setIsChatOpen}>
+        <SheetContent className="w-full sm:max-w-md md:max-w-lg p-0 flex flex-col">
+          <SheetHeader className="px-6 py-4 border-b">
+            <SheetTitle className="flex items-center gap-2">
+              <MessageSquare className="h-5 w-5 text-primary" />
+              Resume Assistant
+            </SheetTitle>
+          </SheetHeader>
+          <div className="flex-1 overflow-hidden">
+            <ChatInterface />
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
