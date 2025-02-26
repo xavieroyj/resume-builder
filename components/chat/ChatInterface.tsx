@@ -7,6 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send } from "lucide-react";
 import { useResumeStore } from "@/lib/store/resume";
 import { useChat } from '@ai-sdk/react';
+import ReactMarkdown from 'react-markdown';
 
 export function ChatInterface() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -84,7 +85,15 @@ export function ChatInterface() {
                       : "bg-muted"
                   }`}
                 >
-                  {message.content}
+                  {message.role === "assistant" ? (
+                    <div className="prose prose-sm dark:prose-invert max-w-none">
+                      <ReactMarkdown>
+                        {message.content}
+                      </ReactMarkdown>
+                    </div>
+                  ) : (
+                    <p>{message.content}</p>
+                  )}
                   <p className="text-xs opacity-70 mt-1">
                     {new Date().toLocaleTimeString([], {
                       hour: "2-digit",
