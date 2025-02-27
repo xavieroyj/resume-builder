@@ -64,7 +64,7 @@ export async function generateChatResponse(
             url: z.string().describe("The URL to crawl."),
           }),
           execute: async ({ url }) => {
-            const scrapeResult = firecrawlClient.scrapeUrl(url, { formats: ['markdown'] }) as unknown as ScrapeResponse;
+            const scrapeResult = await firecrawlClient.scrapeUrl(url, { formats: ['markdown'] }) as ScrapeResponse;
             if (scrapeResult.error) {
               return { content: `Error: ${scrapeResult.error}` };
             }

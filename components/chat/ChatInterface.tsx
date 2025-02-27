@@ -83,16 +83,16 @@ export function ChatInterface() {
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
                       : "bg-muted"
-                  }`}
+                  } break-words overflow-hidden`}
                 >
                   {message.role === "assistant" ? (
-                    <div className="prose prose-sm dark:prose-invert max-w-none">
+                    <div className="prose prose-sm dark:prose-invert max-w-none break-words">
                       <ReactMarkdown>
                         {message.content}
                       </ReactMarkdown>
                     </div>
                   ) : (
-                    <p>{message.content}</p>
+                    <p className="break-all">{message.content}</p>
                   )}
                   <p className="text-xs opacity-70 mt-1">
                     {new Date().toLocaleTimeString([], {
