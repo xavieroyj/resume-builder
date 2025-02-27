@@ -37,4 +37,4 @@ next-env.d.ts
 
 # Removed unnecessary files
 /memory-bank
-docs/vercel_ai_sdk_llms.txt
+/docs
