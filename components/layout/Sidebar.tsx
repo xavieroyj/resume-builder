@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { 
   Download, 
   User, 
@@ -36,6 +35,55 @@ import { WorkExperienceForm } from "@/components/forms/WorkExperienceForm";
 import { EducationForm } from "@/components/forms/EducationForm";
 import { SkillsForm } from "@/components/forms/SkillsForm";
 import { CertificationForm } from "@/components/forms/CertificationForm";
+import { LucideIcon } from "lucide-react";
+
+// Define section type
+type SectionConfig = {
+  id: string;
+  title: string;
+  icon: LucideIcon;
+  component: React.ReactNode;
+};
+
+// Reusable SidebarSection component
+const SidebarSection = ({
+  section,
+  isActive,
+}: {
+  section: SectionConfig;
+  isActive: boolean;
+}) => {
+  return (
+    <AccordionItem 
+      value={section.id} 
+      className={cn(
+        "border rounded-lg overflow-hidden transition-all duration-200",
+        isActive ? "border-primary/50 shadow-md" : "hover:border-primary/20"
+      )}
+    >
+      <AccordionTrigger 
+        className={cn(
+          "px-4 py-3 hover:no-underline", 
+          isActive ? "bg-gradient-to-r from-secondary to-secondary/40" : ""
+        )}
+      >
+        <div className="flex items-center gap-2">
+          <section.icon className={cn(
+            "h-4 w-4",
+            isActive ? "text-primary" : "text-muted-foreground"
+          )}/>
+          <span className={cn(
+            "font-medium",
+            isActive ? "text-primary" : "text-muted-foreground"
+          )}>{section.title}</span>
+        </div>
+      </AccordionTrigger>
+      <AccordionContent className="pt-2 px-4 pb-4">
+        {section.component}
+      </AccordionContent>
+    </AccordionItem>
+  );
+};
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
@@ -45,6 +93,40 @@ export function Sidebar({ className }: SidebarProps) {
   const [activeSection, setActiveSection] = useState("personal");
   const [isPrinting, setIsPrinting] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
+
+  // Define sections configuration
+  const sections: SectionConfig[] = [
+    {
+      id: "personal",
+      title: "Personal Information",
+      icon: User,
+      component: <PersonalInfoForm />
+    },
+    {
+      id: "experience",
+      title: "Work Experience",
+      icon: Briefcase,
+      component: <WorkExperienceForm />
+    },
+    {
+      id: "education",
+      title: "Education",
+      icon: GraduationCap,
+      component: <EducationForm />
+    },
+    {
+      id: "certifications",
+      title: "Licenses & Certifications",
+      icon: Award,
+      component: <CertificationForm />
+    },
+    {
+      id: "skills",
+      title: "Skills",
+      icon: Wrench,
+      component: <SkillsForm />
+    }
+  ];
 
   const handleDownload = async () => {
     setIsPrinting(true);
@@ -84,155 +166,13 @@ export function Sidebar({ className }: SidebarProps) {
             onValueChange={setActiveSection}
             className="space-y-4"
           >
-            {/* Personal Information */}
-            <AccordionItem 
-              value="personal" 
-              className={cn(
-                "border rounded-lg overflow-hidden transition-all duration-200",
-                activeSection === "personal" ? "border-primary/50 shadow-md" : "hover:border-primary/20"
-              )}
-            >
-              <AccordionTrigger 
-                className={cn(
-                  "px-4 py-3 hover:no-underline", 
-                  activeSection === "personal" ? "bg-gradient-to-r from-secondary to-secondary/40" : ""
-                )}
-              >
-                <div className="flex items-center gap-2">
-                  <User className={cn(
-                    "h-4 w-4",
-                    activeSection === "personal" ? "text-primary" : "text-muted-foreground"
-                  )}/>
-                  <span className={cn(
-                    "font-medium",
-                    activeSection === "personal" ? "text-primary" : "text-muted-foreground"
-                  )}>Personal Information</span>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="pt-2 px-4 pb-4">
-                <PersonalInfoForm />
-              </AccordionContent>
-            </AccordionItem>
-
-            {/* Work Experience */}
-            <AccordionItem 
-              value="experience"
-              className={cn(
-                "border rounded-lg overflow-hidden transition-all duration-200",
-                activeSection === "experience" ? "border-primary/50 shadow-md" : "hover:border-primary/20"
-              )}
-            >
-              <AccordionTrigger 
-                className={cn(
-                  "px-4 py-3 hover:no-underline", 
-                  activeSection === "experience" ? "bg-gradient-to-r from-secondary to-secondary/40" : ""
-                )}
-              >
-                <div className="flex items-center gap-2">
-                  <Briefcase className={cn(
-                    "h-4 w-4",
-                    activeSection === "experience" ? "text-primary" : "text-muted-foreground"
-                  )}/>
-                  <span className={cn(
-                    "font-medium",
-                    activeSection === "experience" ? "text-primary" : "text-muted-foreground"
-                  )}>Work Experience</span>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="pt-2 px-4 pb-4">
-                <WorkExperienceForm />
-              </AccordionContent>
-            </AccordionItem>
-
-            {/* Education */}
-            <AccordionItem 
-              value="education"
-              className={cn(
-                "border rounded-lg overflow-hidden transition-all duration-200",
-                activeSection === "education" ? "border-primary/50 shadow-md" : "hover:border-primary/20"
-              )}
-            >
-              <AccordionTrigger 
-                className={cn(
-                  "px-4 py-3 hover:no-underline", 
-                  activeSection === "education" ? "bg-gradient-to-r from-secondary to-secondary/40" : ""
-                )}
-              >
-                <div className="flex items-center gap-2">
-                  <GraduationCap className={cn(
-                    "h-4 w-4",
-                    activeSection === "education" ? "text-primary" : "text-muted-foreground"
-                  )}/>
-                  <span className={cn(
-                    "font-medium",
-                    activeSection === "education" ? "text-primary" : "text-muted-foreground"
-                  )}>Education</span>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="pt-2 px-4 pb-4">
-                <EducationForm />
-              </AccordionContent>
-            </AccordionItem>
-
-            {/* Certifications */}
-            <AccordionItem 
-              value="certifications"
-              className={cn(
-                "border rounded-lg overflow-hidden transition-all duration-200",
-                activeSection === "certifications" ? "border-primary/50 shadow-md" : "hover:border-primary/20"
-              )}
-            >
-              <AccordionTrigger 
-                className={cn(
-                  "px-4 py-3 hover:no-underline", 
-                  activeSection === "certifications" ? "bg-gradient-to-r from-secondary to-secondary/40" : ""
-                )}
-              >
-                <div className="flex items-center gap-2">
-                  <Award className={cn(
-                    "h-4 w-4",
-                    activeSection === "certifications" ? "text-primary" : "text-muted-foreground"
-                  )}/>
-                  <span className={cn(
-                    "font-medium",
-                    activeSection === "certifications" ? "text-primary" : "text-muted-foreground"
-                  )}>Licenses & Certifications</span>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="pt-2 px-4 pb-4">
-                <CertificationForm />
-              </AccordionContent>
-            </AccordionItem>
-
-            {/* Skills */}
-            <AccordionItem 
-              value="skills"
-              className={cn(
-                "border rounded-lg overflow-hidden transition-all duration-200",
-                activeSection === "skills" ? "border-primary/50 shadow-md" : "hover:border-primary/20"
-              )}
-            >
-              <AccordionTrigger 
-                className={cn(
-                  "px-4 py-3 hover:no-underline", 
-                  activeSection === "skills" ? "bg-gradient-to-r from-secondary to-secondary/40" : ""
-                )}
-              >
-                <div className="flex items-center gap-2">
-                  <Wrench className={cn(
-                    "h-4 w-4",
-                    activeSection === "skills" ? "text-primary" : "text-muted-foreground"
-                  )}/>
-                  <span className={cn(
-                    "font-medium",
-                    activeSection === "skills" ? "text-primary" : "text-muted-foreground"
-                  )}>Skills</span>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="pt-2 px-4 pb-4">
-                <SkillsForm />
-              </AccordionContent>
-            </AccordionItem>
+            {sections.map(section => (
+              <SidebarSection 
+                key={section.id} 
+                section={section} 
+                isActive={activeSection === section.id} 
+              />
+            ))}
           </Accordion>
         </div>
       </ScrollArea>
@@ -266,7 +206,7 @@ export function Sidebar({ className }: SidebarProps) {
         </div>
       </div>
       
-      {/* Chat Sheet will be added here */}
+      {/* Chat Sheet */}
       <Sheet open={isChatOpen} onOpenChange={setIsChatOpen}>
         <SheetContent className="w-full sm:max-w-md md:max-w-lg p-0 flex flex-col">
           <SheetHeader className="px-6 py-4 border-b">
